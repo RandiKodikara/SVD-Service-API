@@ -88,67 +88,36 @@ $app->post('/class_register',  'authenticate', function() use ($app) {
         });
 
 /**
- * Exam Update
- * url - /exam_update/:examName
- * method - PUT
- * params - clz_grade, exm_discription
- */
-$app->put('/exam_update/:examName',  'authenticate', function($clz_grade) use ($app) {
-	
-            // check for required params
-            verifyRequiredParams(array( 'exm_discription'));
-			
-			global $currunt_user_id;
-
-            $response = array();
-
-            // reading put params
-            $exm_discription = $app->request->put('exm_discription');
-
-            $examManagement = new ExamManagement();
-			$res = $examManagement->updateExam($exm_name, $exm_discription,$currunt_user_id);
-			
-            if ($res == UPDATE_SUCCESSFULLY) {
-                $response["error"] = false;
-                $response["message"] = "You are successfully updated exam";
-            } else if ($res == UPDATE_FAILED) {
-                $response["error"] = true;
-                $response["message"] = "Oops! An error occurred while updating exam";
-            } else if ($res == NOT_EXISTED) {
-                $response["error"] = true;
-                $response["message"] = "Sorry, this exam is not exist";
-            }
-            // echo json response
-            echoRespnse(201, $response);
-        });
-
-
-/**
- * Exam Delete
- * url - /exam_delete
+ * Class Delete
+ * url - /class_delete
  * method - DELETE
- * params - exm_name/:examName
+ * params - clz_grade,clz_class
  */
-$app->delete('/exam_delete/:examName', 'authenticate', function($clz_grade) use ($app) {
-	
+$app->delete('/class_delete', 'authenticate', function() use ($app) {
+			// check for required params
+            verifyRequiredParams(array('clz_grade', 'clz_class'));
             
 			global $currunt_user_id;
 
             $response = array();
+			
+			// reading delete params
+            $clz_grade = $app->request->delete('clz_grade');
+            $clz_class = $app->request->delete('clz_class');
 
 			
-            $examManagement = new ExamManagement();
-			$res = $examManagement->deleteExam($exm_name, $currunt_user_id);
+            $classManagement = new ClassManagement();
+			$res = $classManagement->deleteClass($clz_grade,$clz_class, $currunt_user_id);
 			
             if ($res == DELETE_SUCCESSFULLY) {
                 $response["error"] = false;
-                $response["message"] = "Exam is successfully deleted";
+                $response["message"] = "Class is successfully deleted";
             } else if ($res == DELETE_FAILED) {
                 $response["error"] = true;
-                $response["message"] = "Oops! An error occurred while deleting exam";
+                $response["message"] = "Oops! An error occurred while deleting class";
             } else if ($res == NOT_EXISTED) {
                 $response["error"] = true;
-                $response["message"] = "Sorry, this exam is not exist";
+                $response["message"] = "Sorry, this class is not exist";
             }
             // echo json response
             echoRespnse(201, $response);
@@ -157,19 +126,19 @@ $app->delete('/exam_delete/:examName', 'authenticate', function($clz_grade) use 
 
 		
 /**
- * get one exam
+ * get one class
  * method GET
- * url /exam/:examName          
+ * url /class/:clz_grade/:clz_class          
  */
-$app->get('/exam/:examName', 'authenticate', function($clz_grade) {
+$app->get('/class/:clz_grade/:clz_class', 'authenticate', function($clz_grade,$clz_class) {
             global $currunt_user_id;
             $response = array();
             
-			$examManagement = new ExamManagement();
-			$res = $examManagement->getExamByExamName($exm_name);
+			$classManagement = new ClassManagement();
+			$res = $classManagement->getClassByClassName($clz_grade,$clz_class);
 
             $response["error"] = false;
-            $response["exam"] = $res;
+            $response["class"] = $res;
 
             
 
@@ -177,32 +146,32 @@ $app->get('/exam/:examName', 'authenticate', function($clz_grade) {
         });
 
 /**
- * Listing all exams
+ * Listing all class
  * method GET
- * url /exams        
+ * url /class        
  */
-$app->get('/exams', 'authenticate', function() {
+$app->get('/class', 'authenticate', function() {
             global $user_id;
 			
             $response = array();
 			
-            $examManagement = new ExamManagement();
-			$res = $examManagement->getAllExams();
+            $classManagement = new ClassManagement();
+			$res = $classManagement->getAllClass();
 
             $response["error"] = false;
-            $response["exam"] = array();
+            $response["class"] = array();
 
-            // looping through result and preparing exams array
-            while ($exam = $res->fetch_assoc()) {
+            // looping through result and preparing class array
+            while ($class = $res->fetch_assoc()) {
                 $tmp = array();
 				
-                $tmp["exm_name"] = $exam["exm_name"];
-                $tmp["exm_discription"] = $exam["exm_discription"];
-                $tmp["status"] = $exam["status"];
-                $tmp["recode_added_at"] = $exam["recode_added_at"];
-				$tmp["recode_added_by"] = $exam["recode_added_by"];
+                $tmp["clz_grade"] = $class["clz_grade"];
+                $tmp["clz_class"] = $class["clz_class"];
+                $tmp["status"] = $class["status"];
+                $tmp["recode_added_at"] = $class["recode_added_at"];
+				$tmp["recode_added_by"] = $class["recode_added_by"];
 				
-                array_push($response["exam"], $tmp);
+                array_push($response["class"], $tmp);
             }
 
             echoRespnse(200, $response);
@@ -223,6 +192,11 @@ function verifyRequiredParams($required_fields) {
     $request_params = $_REQUEST;
     // Handling PUT request params
     if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+        $app = \Slim\Slim::getInstance();
+        parse_str($app->request()->getBody(), $request_params);
+    }
+	// Handling DELETE request params
+    if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
         $app = \Slim\Slim::getInstance();
         parse_str($app->request()->getBody(), $request_params);
     }

@@ -48,7 +48,7 @@ class ClassManagement {
 			 $stmt->close();
 
         } else {
-            // Class is not already existed in the db
+            // Class is already existed in the db
             return ALREADY_EXISTED;
         }
 		
@@ -67,79 +67,31 @@ class ClassManagement {
 
     }
 	
-	/**
-     * Update class
+/**
+     * Delete class
      *
-     * @param Int $clz_grade Class name for the system
-     * @param String $clz_class Discription of the Class
-	 * @param String $recode_added_by 
+     * @param Int $clz_grade Class grade for the system
+	 * @param String $clz_class class of the Class
+	 * @param Int $recode_added_by
      *
      * @return database transaction status
      */
-    public function updateClass($clz_grade, $clz_class,$recode_added_by) {
+    public function deleteClass($clz_grade,$clz_class, $recode_added_by) {
 
 		
         $response = array();
         // First check if class already existed in db
-        if ($this->isClassExists($clz_grade)) {
-            
-			//
-			$stmt = $this->conn->prepare("UPDATE class set status = 2,  recode_modified_at = now() , recode_modified_by = ? where clz_grade = ? and status = 1");
-			$stmt->bind_param("is", $recode_added_by, $clz_grade);
-			$result = $stmt->execute();
-			
-            // insert updated recode
-			$stmt = $this->conn->prepare("INSERT INTO class(clz_grade, clz_class, recode_added_by) values(?, ?, ?)");
-			$stmt->bind_param("isi", $clz_grade, $clz_class, $recode_added_by );
-			$result = $stmt->execute();
-
-			$stmt->close();
-
-        } else {
-            // class is not already existed in the db
-            return NOT_EXISTED;
-        }
-		
-         
-
-        // Check for successful update
-        if ($result) {
-			// class successfully update
-            return UPDATE_SUCCESSFULLY;
-        } else {
-            // Failed to update class
-            return UPDATE_FAILED;
-        }
-        
-		return $response;
-
-    }
-	
-/**
-     * Delete class
-     *
-     * @param Int $clz_grade Class name for the system
-	 * @param String $clz_class Discription of the Class
-	 * @param String $recode_added_by
-     *
-     * @return database transaction status
-     */
-    public function deleteExam($clz_grade, $recode_added_by) {
-
-		
-        $response = array();
-        // First check if exam already existed in db
-        if ($this->isExamExists($clz_grade)) {
+        if ($this->isClassExists($clz_grade,$clz_class)) {
            			
 			//
-			$stmt = $this->conn->prepare("UPDATE exam set status = 3, recode_modified_at = now() , recode_modified_by = ? where exm_name = ? and status=1");
-			$stmt->bind_param("is",$recode_added_by, $clz_grade);
+			$stmt = $this->conn->prepare("UPDATE class set status = 3, recode_modified_at = now() , recode_modified_by = ? where clz_grade = ? and clz_class = ? and status=1");
+			$stmt->bind_param("iis",$recode_added_by, $clz_grade,$clz_class);
 			$result = $stmt->execute();
 			
             $stmt->close();
 
         } else {
-            // Exam is not already existed in the db
+            // Class is not already existed in the db
             return NOT_EXISTED;
         }
 		
@@ -147,10 +99,10 @@ class ClassManagement {
 
         // Check for successful insertion
         if ($result) {
-			// exam successfully deleted
+			// class successfully deleted
             return DELETE_SUCCESSFULLY;
         } else {
-            // Failed to delete exam
+            // Failed to delete class
             return DELETE_FAILED;
         }
         
@@ -159,27 +111,27 @@ class ClassManagement {
     }
 	  
 	/**
-     * Fetching exam by exm_name
+     * Fetching class by clz_grade and clz_class
 	 *
-     * @param String $exm_name Exam name
-	 *
-	 *@return Exam object only needed data
+     * @param Int $clz_grade Class grade
+	 * @param String $clz_class Class class
+	 *@return Class object only needed data
      */
-    public function getExamByExamName($exm_name) {
-        $stmt = $this->conn->prepare("SELECT exm_name, exm_discription, status, recode_added_at, recode_added_by FROM exam WHERE exm_name = ? and status=1");
-        $stmt->bind_param("s", $exm_name);
+    public function getClassByClassName($clz_grade,$clz_class) {
+        $stmt = $this->conn->prepare("SELECT clz_grade, clz_class, status, recode_added_at, recode_added_by FROM class WHERE clz_grade = ? and clz_class = ? and status=1");
+        $stmt->bind_param("is", $clz_grade,$clz_class);
         if ($stmt->execute()) {
-            $stmt->bind_result($exm_name,  $exm_discription, $status, $recode_added_at, $recode_added_by);
+            $stmt->bind_result($clz_grade,  $clz_class, $status, $recode_added_at, $recode_added_by);
             $stmt->fetch();
-            $exam = array();
-            $exam["exm_name"] = $exm_name;
-            $exam["exm_discription"] = $exm_discription;
-            $exam["status"] = $status;
-            $exam["recode_added_at"] = $recode_added_at;
-			$exam["recode_added_by"] = $recode_added_by;
+            $class = array();
+            $class["clz_grade"] = $clz_grade;
+            $class["clz_class"] = $clz_class;
+            $class["status"] = $status;
+            $class["recode_added_at"] = $recode_added_at;
+			$class["recode_added_by"] = $recode_added_by;
 
             $stmt->close();
-            return $exam;
+            return $class;
         } else {
             return NULL;
         }
@@ -187,16 +139,16 @@ class ClassManagement {
   
   
 	/**
-     * Fetching all exams
+     * Fetching all class
 	 *
-     * @return $exams boject set of all exams
+     * @return $class boject set of all class
      */
-    public function getAllExams() {
-        $stmt = $this->conn->prepare("SELECT * FROM exam WHERE status = 1");
+    public function getAllClass() {
+        $stmt = $this->conn->prepare("SELECT * FROM class WHERE status = 1");
         $stmt->execute();
-        $exams = $stmt->get_result();
+        $class = $stmt->get_result();
         $stmt->close();
-        return $exams;
+        return $class;
     }
 	
   
@@ -216,8 +168,8 @@ class ClassManagement {
      * @return boolean
      */
     private function isClassExists($clz_grade, $clz_class) {
-		//$exm_name = "exm1";
-		$stmt = $this->conn->prepare("SELECT clz_grade from class WHERE status = 1 and clz_grade = ? and clz_class = ?  ");
+		//$clz_grade, $clz_class = 5, "a";
+		$stmt = $this->conn->prepare("SELECT clz_grade,clz_class from class WHERE status = 1 and clz_grade = ? and clz_class = ?  ");
         $stmt->bind_param("is",$clz_grade, $clz_class);
         $stmt->execute();
 		$stmt->store_result();
