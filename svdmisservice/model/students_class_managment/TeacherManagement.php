@@ -17,8 +17,7 @@ class TeacherManagement {
         $db = new DbConnect();
         $this->conn = $db->connect();
     }
-	
-	
+		
 /*
  * ------------------------ TEACHER TABLE METHODS ------------------------
  */
@@ -37,7 +36,6 @@ class TeacherManagement {
      * @return database transaction status
      */
     public function createTeacher($tea_full_name,$tea_name_with_initials,$tea_land_phone_number,$tea_mobile_phone_number,$tea_address,$tea_city,$lib_mem_id,$recode_added_by ) {
-
 		
         $response = array();
 		
@@ -55,9 +53,7 @@ class TeacherManagement {
             // teacher is not already existed in the db
             return ALREADY_EXISTED;
         }
-		
-         
-
+		         
         // Check for successful insertion
         if ($result) {
 			// teacher successfully inserted
@@ -86,7 +82,6 @@ class TeacherManagement {
      * @return database transaction status
      */
     public function updateTeacher($tea_full_name, $tea_name_with_initials, $tea_land_phone_number, $tea_mobile_phone_number, $tea_address, $tea_city, $lib_mem_id, $recode_added_by) {
-
 		
         $response = array();
         // First check if teacher already existed in db
@@ -103,9 +98,7 @@ class TeacherManagement {
             // teacher is not already existed in the db
             return NOT_EXISTED;
         }
-		
-         
-
+		         
         // Check for successful update
         if ($result) {
 			// teacher successfully update
@@ -134,7 +127,6 @@ class TeacherManagement {
      * @return database transaction status
      */
     public function deleteTeacher($tea_full_name, $recode_added_by ) {
-
 		
         $response = array();
         // First check if teacher already existed in db
@@ -151,9 +143,7 @@ class TeacherManagement {
             // Teacher is not already existed in the db
             return NOT_EXISTED;
         }
-		
-         
-
+		         
         // Check for successful insertion
         if ($result) {
 			// teacher successfully deleted
@@ -198,8 +188,7 @@ class TeacherManagement {
             return NULL;
         }
     }
-  
-  
+    
 	/**
      * Fetching all techers
 	 *
@@ -234,7 +223,5 @@ class TeacherManagement {
         $stmt->close();
         return ($num_rows > 0); //if it has more than zero number of rows; then  it sends true
     }
-
 }
-
 ?>

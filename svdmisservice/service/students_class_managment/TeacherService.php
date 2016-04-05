@@ -133,7 +133,6 @@ $app->put('/teacher_update',  'authenticate', function() use ($app) {
             echoRespnse(201, $response);
         });
 
-
 /**
  * Teacher Delete
  * url - /teacher_delete
@@ -165,8 +164,6 @@ $app->delete('/teacher_delete', 'authenticate', function() use ($app) {
             // echo json response
             echoRespnse(201, $response);
         });
-
-
 		
 /**
  * get one teacher
@@ -182,9 +179,7 @@ $app->get('/teacher/:teacherName', 'authenticate', function($tea_full_name) {
 
             $response["error"] = false;
             $response["teacher"] = $res;
-
             
-
             echoRespnse(200, $response);
         });
 
@@ -225,7 +220,6 @@ $app->get('/teachers', 'authenticate', function() {
             echoRespnse(200, $response);
         });		
 				
-
 /*
  * ------------------------ SUPPORTIVE METHODS ------------------------
  */				
