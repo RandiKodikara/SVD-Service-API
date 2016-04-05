@@ -122,8 +122,6 @@ $app->delete('/class_delete', 'authenticate', function() use ($app) {
             // echo json response
             echoRespnse(201, $response);
         });
-
-
 		
 /**
  * get one class
@@ -139,9 +137,7 @@ $app->get('/class/:clz_grade/:clz_class', 'authenticate', function($clz_grade,$c
 
             $response["error"] = false;
             $response["class"] = $res;
-
-            
-
+           
             echoRespnse(200, $response);
         });
 
@@ -177,7 +173,6 @@ $app->get('/class', 'authenticate', function() {
             echoRespnse(200, $response);
         });		
 				
-
 /*
  * ------------------------ SUPPORTIVE METHODS ------------------------
  */				

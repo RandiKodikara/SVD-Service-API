@@ -17,8 +17,7 @@ class ClassManagement {
         $db = new DbConnect();
         $this->conn = $db->connect();
     }
-	
-	
+		
 /*
  * ------------------------ CLASS TABLE METHODS ------------------------
  */
@@ -33,7 +32,6 @@ class ClassManagement {
      * @return database transaction status
      */
     public function createClass($clz_grade, $clz_class,$recode_added_by ) {
-
 		
         $response = array();
 		
@@ -51,9 +49,7 @@ class ClassManagement {
             // Class is already existed in the db
             return ALREADY_EXISTED;
         }
-		
-         
-
+		         
         // Check for successful insertion
         if ($result) {
 			// class successfully inserted
@@ -77,7 +73,6 @@ class ClassManagement {
      * @return database transaction status
      */
     public function deleteClass($clz_grade,$clz_class, $recode_added_by) {
-
 		
         $response = array();
         // First check if class already existed in db
@@ -94,9 +89,7 @@ class ClassManagement {
             // Class is not already existed in the db
             return NOT_EXISTED;
         }
-		
-         
-
+		         
         // Check for successful insertion
         if ($result) {
 			// class successfully deleted
@@ -136,8 +129,7 @@ class ClassManagement {
             return NULL;
         }
     }
-  
-  
+    
 	/**
      * Fetching all class
 	 *
@@ -149,12 +141,7 @@ class ClassManagement {
         $class = $stmt->get_result();
         $stmt->close();
         return $class;
-    }
-	
-  
-  
-  
-  
+    }  
   
 /*
  * ------------------------ SUPPORTIVE METHODS ------------------------
@@ -179,5 +166,4 @@ class ClassManagement {
     }
 
 }
-
 ?>
