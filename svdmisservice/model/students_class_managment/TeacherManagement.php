@@ -188,9 +188,9 @@ class TeacherManagement {
             return NULL;
         }
     }
-    
+    	
 	/**
-     * Fetching all techers
+     * Fetching all teachers
 	 *
      * @return $teachers boject set of all teachers
      */
@@ -201,7 +201,20 @@ class TeacherManagement {
         $stmt->close();
         return $teachers;
     }
-  
+    
+  /**
+     * Fetching all teachers by city
+	 *
+     * @return $teacherCity object set of all teacherCity
+     */
+    public function getAllTeacherCity($tea_city) {
+        $stmt = $this->conn->prepare("SELECT * FROM teacher WHERE (status = 1 or status = 2) and tea_city = ?");
+		$stmt->bind_param("s", $tea_city);
+        $stmt->execute();
+        $teacherCity = $stmt->get_result();
+        $stmt->close();
+        return $teacherCity;
+    }
 /*
  * ------------------------ SUPPORTIVE METHODS ------------------------
  */

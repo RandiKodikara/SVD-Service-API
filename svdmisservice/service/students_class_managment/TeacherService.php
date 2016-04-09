@@ -182,6 +182,9 @@ $app->get('/teacher/:teacherName', 'authenticate', function($tea_full_name) {
             
             echoRespnse(200, $response);
         });
+		
+		
+
 
 /**
  * Listing all teachers
@@ -219,7 +222,45 @@ $app->get('/teachers', 'authenticate', function() {
 
             echoRespnse(200, $response);
         });		
+
+/**
+ * Listing all teachers by city
+ * method GET
+ * url /teacherCity/:teacherCity        
+ */
+ 
+$app->get('/teacherCity/:teacherCity', 'authenticate', function($tea_city) {
+            global $user_id;
+			
+            $response = array();
+			
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getAllTeacherCity($tea_city);
+
+            $response["error"] = false;
+            $response["teacher"] = array();
+
+            // looping through result and preparing teachers array
+            while ($teacher = $res->fetch_assoc()) {
+                $tmp = array();
 				
+                $tmp["tea_full_name"] = $teacher["tea_full_name"];
+                $tmp["tea_name_with_initials"] = $teacher["tea_name_with_initials"];
+				$tmp["tea_land_phone_number"] = $teacher["tea_land_phone_number"];
+                $tmp["tea_mobile_phone_number"] = $teacher["tea_mobile_phone_number"];
+				$tmp["tea_address"] = $teacher["tea_address"];
+                $tmp["tea_city"] = $teacher["tea_city"];
+				$tmp["lib_mem_id"] = $teacher["lib_mem_id"];
+                $tmp["status"] = $teacher["status"];
+                $tmp["recode_added_at"] = $teacher["recode_added_at"];
+				$tmp["recode_added_by"] = $teacher["recode_added_by"];
+				
+                array_push($response["teacher"], $tmp);
+            }
+
+            echoRespnse(200, $response);
+        });		
+								
 /*
  * ------------------------ SUPPORTIVE METHODS ------------------------
  */				
