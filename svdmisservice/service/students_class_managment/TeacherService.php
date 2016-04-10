@@ -55,12 +55,12 @@ function authenticate(\Slim\Route $route) {
  * teacher Registration
  * url - /teacher_register
  * method - POST
- * params - tea_full_name,tea_name_with_initials,tea_land_phone_number,tea_mobile_phone_number,tea_address,tea_city,$lib_mem_id
+ * params - tea_full_name, tea_name_with_initials, tea_land_phone_number, tea_mobile_phone_number, tea_address, tea_birth_day, tea_city', 'tec_nic', 'lib_mem_id, tea_distance_to_home, tea_occupation', 'tea_occupation_type, tea_office_address, tea_office_phone, tea_gender, tea_email, tea_student_id, tea_ob_id
  */
 $app->post('/teacher_register',  'authenticate', function() use ($app) {
 	
             // check for required params
-            verifyRequiredParams(array('tea_full_name','tea_name_with_initials','tea_land_phone_number','tea_mobile_phone_number','tea_address','tea_city','lib_mem_id'));
+            verifyRequiredParams(array('tea_full_name', 'tea_name_with_initials', 'tea_land_phone_number', 'tea_mobile_phone_number', 'tea_address', 'tea_birth_day', 'tea_city', 'tec_nic', 'lib_mem_id', 'tea_distance_to_home', 'tea_occupation', 'tea_occupation_type', 'tea_office_address', 'tea_office_phone', 'tea_gender', 'tea_email', 'tea_student_id', 'tea_ob_id'));
 			
 			global $currunt_user_id;
 
@@ -72,11 +72,22 @@ $app->post('/teacher_register',  'authenticate', function() use ($app) {
 			$tea_land_phone_number = $app->request->post('tea_land_phone_number');
 			$tea_mobile_phone_number = $app->request->post('tea_mobile_phone_number');
 			$tea_address = $app->request->post('tea_address');
+			$tea_birth_day = $app->request->post('tea_birth_day');
 			$tea_city = $app->request->post('tea_city');
+			$tec_nic = $app->request->post('tec_nic');
 			$lib_mem_id = $app->request->post('lib_mem_id');
-           
+			$tea_distance_to_home = $app->request->post('tea_distance_to_home');
+			$tea_occupation = $app->request->post('tea_occupation');
+			$tea_occupation_type = $app->request->post('tea_occupation_type');
+			$tea_office_address = $app->request->post('tea_office_address');
+			$tea_office_phone = $app->request->post('tea_office_phone');
+			$tea_gender = $app->request->post('tea_gender');
+			$tea_email = $app->request->post('tea_email');
+			$tea_student_id = $app->request->post('tea_student_id');
+			$tea_ob_id = $app->request->post('tea_ob_id');
+			
             $teacherManagement = new TeacherManagement();
-			$res = $teacherManagement->createTeacher($tea_full_name,$tea_name_with_initials,$tea_land_phone_number,$tea_mobile_phone_number,$tea_address,$tea_city,$lib_mem_id, $currunt_user_id);
+			$res = $teacherManagement->createTeacher($tea_full_name, $tea_name_with_initials, $tea_land_phone_number, $tea_mobile_phone_number, $tea_address, $tea_birth_day, $tea_city, $tec_nic, $lib_mem_id, $tea_distance_to_home, $tea_occupation, $tea_occupation_type, $tea_office_address, $tea_office_phone, $tea_gender, $tea_email, $tea_student_id, $tea_ob_id, $currunt_user_id);
 			
             if ($res == CREATED_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -96,28 +107,39 @@ $app->post('/teacher_register',  'authenticate', function() use ($app) {
  * Teacher Update
  * url - /teacher_update
  * method - PUT
- * params - tea_full_name,tea_name_with_initials,tea_land_phone_number,tea_mobile_phone_number,tea_address,tea_city,lib_mem_id
+ * params - tea_full_name, tea_name_with_initials, tea_land_phone_number, tea_mobile_phone_number, tea_address, tea_birth_day, tea_city, tec_nic, lib_mem_id, tea_distance_to_home, tea_occupation, tea_occupation_type, tea_office_address, tea_office_phone, tea_gender, tea_email, tea_student_id, tea_ob_id
  */
 $app->put('/teacher_update',  'authenticate', function() use ($app) {
 	
             // check for required params
-            verifyRequiredParams(array( 'tea_full_name','tea_name_with_initials','tea_land_phone_number','tea_mobile_phone_number','tea_address','tea_city','lib_mem_id'));
+            verifyRequiredParams(array('tea_full_name', 'tea_name_with_initials', 'tea_land_phone_number', 'tea_mobile_phone_number', 'tea_address', 'tea_birth_day', 'tea_city', 'tec_nic', 'lib_mem_id', 'tea_distance_to_home', 'tea_occupation', 'tea_occupation_type', 'tea_office_address', 'tea_office_phone', 'tea_gender', 'tea_email', 'tea_student_id', 'tea_ob_id'));
 			
 			global $currunt_user_id;
 
             $response = array();
 
             // reading put params
-			$tea_full_name = $app->request->put('tea_full_name');
-            $tea_name_with_initials = $app->request->put('tea_name_with_initials');
+            $tea_full_name = $app->request->put('tea_full_name');
+			$tea_name_with_initials = $app->request->put('tea_name_with_initials');
 			$tea_land_phone_number = $app->request->put('tea_land_phone_number');
 			$tea_mobile_phone_number = $app->request->put('tea_mobile_phone_number');
 			$tea_address = $app->request->put('tea_address');
+			$tea_birth_day = $app->request->put('tea_birth_day');
 			$tea_city = $app->request->put('tea_city');
+			$tec_nic = $app->request->put('tec_nic');
 			$lib_mem_id = $app->request->put('lib_mem_id');
+			$tea_distance_to_home = $app->request->put('tea_distance_to_home');
+			$tea_occupation = $app->request->put('tea_occupation');
+			$tea_occupation_type = $app->request->put('tea_occupation_type');
+			$tea_office_address = $app->request->put('tea_office_address');
+			$tea_office_phone = $app->request->put('tea_office_phone');
+			$tea_gender = $app->request->put('tea_gender');
+			$tea_email = $app->request->put('tea_email');
+			$tea_student_id = $app->request->put('tea_student_id');
+			$tea_ob_id = $app->request->put('tea_ob_id');
 
             $teacherManagement = new TeacherManagement();
-			$res = $teacherManagement->updateTeacher($tea_full_name, $tea_name_with_initials, $tea_land_phone_number, $tea_mobile_phone_number, $tea_address, $tea_city, $lib_mem_id, $currunt_user_id);
+			$res = $teacherManagement->updateTeacher($tea_full_name, $tea_name_with_initials, $tea_land_phone_number, $tea_mobile_phone_number, $tea_address, $tea_birth_day, $tea_city, $tec_nic, $lib_mem_id, $tea_distance_to_home, $tea_occupation, $tea_occupation_type, $tea_office_address, $tea_office_phone, $tea_gender, $tea_email, $tea_student_id, $tea_ob_id, $currunt_user_id);
 			
             if ($res == UPDATE_SUCCESSFULLY) {
                 $response["error"] = false;
@@ -166,11 +188,29 @@ $app->delete('/teacher_delete', 'authenticate', function() use ($app) {
         });
 		
 /**
- * get one teacher
+ * get one teacher by tea_id
  * method GET
- * url /teacher/:teacherName          
+ * url /teacherNic/:tea_id          
  */
-$app->get('/teacher/:teacherName', 'authenticate', function($tea_full_name) {
+$app->get('/teacherTid/:tea_id', 'authenticate', function($tea_id) {
+            global $currunt_user_id;
+            $response = array();
+            
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getTeacherByTeacherTid($tea_id);
+
+            $response["error"] = false;
+            $response["teacher"] = $res;
+            
+            echoRespnse(200, $response);
+        });
+		
+/**
+ * get one teacher by tea_full_name
+ * method GET
+ * url /teacherName/:tea_full_name          
+ */
+$app->get('/teacherName/:tea_full_name', 'authenticate', function($tea_full_name) {
             global $currunt_user_id;
             $response = array();
             
@@ -183,8 +223,175 @@ $app->get('/teacher/:teacherName', 'authenticate', function($tea_full_name) {
             echoRespnse(200, $response);
         });
 		
-		
+/**
+ * get one teacher by nic
+ * method GET
+ * url /teacherNic/:tecNic          
+ */
+$app->get('/teacherNic/:tecNic', 'authenticate', function($tec_nic) {
+            global $currunt_user_id;
+            $response = array();
+            
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getTeacherByTeacherNic($tec_nic);
 
+            $response["error"] = false;
+            $response["teacher"] = $res;
+            
+            echoRespnse(200, $response);
+        });
+		
+/**
+ * get one teacher by lib_mem_id
+ * method GET
+ * url /teacherLid/:lib_mem_id          
+ */
+$app->get('/teacherLid/:lib_mem_id', 'authenticate', function($lib_mem_id) {
+            global $currunt_user_id;
+            $response = array();
+            
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getTeacherByTeacherLid($lib_mem_id);
+
+            $response["error"] = false;
+            $response["teacher"] = $res;
+            
+            echoRespnse(200, $response);
+        });
+		
+/**
+ * Listing all teachers by occupation type
+ * method GET
+ * url //:teacherOtype        
+ */
+ 
+$app->get('/teacherOtype/:teacherOtype', 'authenticate', function($tea_occupation_type) {
+            global $user_id;
+			
+            $response = array();
+			
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getAllTeacherOtype($tea_occupation_type);
+
+            $response["error"] = false;
+            $response["teacher"] = array();
+
+            // looping through result and preparing teachers array
+            while ($teacher = $res->fetch_assoc()) {
+                $tmp = array();
+				
+				$tmp["tea_full_name"] = $teacher["tea_full_name"];
+                $tmp["tea_name_with_initials"] = $teacher["tea_name_with_initials"];
+				$tmp["tea_land_phone_numbteacherCityer"] = $teacher["tea_land_phone_number"];
+                $tmp["tea_mobile_phone_number"] = $teacher["tea_mobile_phone_number"];
+				$tmp["tea_address"] = $teacher["tea_address"];
+                $tmp["tea_birth_day"] = $teacher["tea_birth_day"];
+				$tmp["tea_city"] = $teacher["tea_city"];
+				$tmp["tec_nic"] = $teacher["tec_nic"];
+				$tmp["lib_mem_id"] = $teacher["lib_mem_id"];
+				$tmp["tea_distance_to_home"] = $teacher["tea_distance_to_home"];
+				$tmp["tea_occupation"] = $teacher["tea_occupation"];
+				$tmp["tea_occupation_type"] = $teacher["tea_occupation_type"];
+				$tmp["tea_office_address"] = $teacher["tea_office_address"];
+				$tmp["tea_office_phone"] = $teacher["tea_office_phone"];
+				$tmp["tea_gender"] = $teacher["tea_gender"];
+				$tmp["tea_email"] = $teacher["tea_email"];
+				$tmp["tea_student_id"] = $teacher["tea_student_id"];
+				$tmp["tea_ob_id"] = $teacher["tea_ob_id"];
+                $tmp["status"] = $teacher["status"];
+                $tmp["recode_added_at"] = $teacher["recode_added_at"];
+				$tmp["recode_added_by"] = $teacher["recode_added_by"];
+				
+                array_push($response["teacher"], $tmp);
+            }
+
+            echoRespnse(200, $response);
+        });
+
+/**
+ * Listing all teachers by gender
+ * method GET
+ * url //:teacherGender        
+ */
+ 
+$app->get('/teacherGender/:teacherGender', 'authenticate', function($tea_gender) {
+            global $user_id;
+			
+            $response = array();
+			
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getAllTeacherGender($tea_gender);
+
+            $response["error"] = false;
+            $response["teacher"] = array();
+
+            // looping through result and preparing teachers array
+            while ($teacher = $res->fetch_assoc()) {
+                $tmp = array();
+				
+				$tmp["tea_full_name"] = $teacher["tea_full_name"];
+                $tmp["tea_name_with_initials"] = $teacher["tea_name_with_initials"];
+				$tmp["tea_land_phone_numbteacherCityer"] = $teacher["tea_land_phone_number"];
+                $tmp["tea_mobile_phone_number"] = $teacher["tea_mobile_phone_number"];
+				$tmp["tea_address"] = $teacher["tea_address"];
+                $tmp["tea_birth_day"] = $teacher["tea_birth_day"];
+				$tmp["tea_city"] = $teacher["tea_city"];
+				$tmp["tec_nic"] = $teacher["tec_nic"];
+				$tmp["lib_mem_id"] = $teacher["lib_mem_id"];
+				$tmp["tea_distance_to_home"] = $teacher["tea_distance_to_home"];
+				$tmp["tea_occupation"] = $teacher["tea_occupation"];
+				$tmp["tea_occupation_type"] = $teacher["tea_occupation_type"];
+				$tmp["tea_office_address"] = $teacher["tea_office_address"];
+				$tmp["tea_office_phone"] = $teacher["tea_office_phone"];
+				$tmp["tea_gender"] = $teacher["tea_gender"];
+				$tmp["tea_email"] = $teacher["tea_email"];
+				$tmp["tea_student_id"] = $teacher["tea_student_id"];
+				$tmp["tea_ob_id"] = $teacher["tea_ob_id"];
+                $tmp["status"] = $teacher["status"];
+                $tmp["recode_added_at"] = $teacher["recode_added_at"];
+				$tmp["recode_added_by"] = $teacher["recode_added_by"];
+				
+                array_push($response["teacher"], $tmp);
+            }
+
+            echoRespnse(200, $response);
+        });		
+		
+/**
+ * get one teacher by tea_student_id
+ * method GET
+ * url /teacherSid/:tea_student_id          
+ */
+$app->get('/teacherSid/:tea_student_id', 'authenticate', function($tea_student_id) {
+            global $currunt_user_id;
+            $response = array();
+            
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getTeacherByTeacherSid($tea_student_id);
+
+            $response["error"] = false;
+            $response["teacher"] = $res;
+            
+            echoRespnse(200, $response);
+        });						
+		
+/**
+ * get one teacher by tea_ob_id
+ * method GET
+ * url /teacherOid/:tea_ob_id          
+ */
+$app->get('/teacherOid/:tea_ob_id', 'authenticate', function($tea_ob_id) {
+            global $currunt_user_id;
+            $response = array();
+            
+			$teacherManagement = new TeacherManagement();
+			$res = $teacherManagement->getTeacherByTeacherOid($tea_ob_id);
+
+            $response["error"] = false;
+            $response["teacher"] = $res;
+            
+            echoRespnse(200, $response);
+        });						
 
 /**
  * Listing all teachers
@@ -211,8 +418,19 @@ $app->get('/teachers', 'authenticate', function() {
 				$tmp["tea_land_phone_number"] = $teacher["tea_land_phone_number"];
                 $tmp["tea_mobile_phone_number"] = $teacher["tea_mobile_phone_number"];
 				$tmp["tea_address"] = $teacher["tea_address"];
-                $tmp["tea_city"] = $teacher["tea_city"];
+                $tmp["tea_birth_day"] = $teacher["tea_birth_day"];
+				$tmp["tea_city"] = $teacher["tea_city"];
+				$tmp["tec_nic"] = $teacher["tec_nic"];
 				$tmp["lib_mem_id"] = $teacher["lib_mem_id"];
+				$tmp["tea_distance_to_home"] = $teacher["tea_distance_to_home"];
+				$tmp["tea_occupation"] = $teacher["tea_occupation"];
+				$tmp["tea_occupation_type"] = $teacher["tea_occupation_type"];
+				$tmp["tea_office_address"] = $teacher["tea_office_address"];
+				$tmp["tea_office_phone"] = $teacher["tea_office_phone"];
+				$tmp["tea_gender"] = $teacher["tea_gender"];
+				$tmp["tea_email"] = $teacher["tea_email"];
+				$tmp["tea_student_id"] = $teacher["tea_student_id"];
+				$tmp["tea_ob_id"] = $teacher["tea_ob_id"];
                 $tmp["status"] = $teacher["status"];
                 $tmp["recode_added_at"] = $teacher["recode_added_at"];
 				$tmp["recode_added_by"] = $teacher["recode_added_by"];
@@ -226,7 +444,7 @@ $app->get('/teachers', 'authenticate', function() {
 /**
  * Listing all teachers by city
  * method GET
- * url /teacherCity/:teacherCity        
+ * url //:teacherCity        
  */
  
 $app->get('/teacherCity/:teacherCity', 'authenticate', function($tea_city) {
@@ -244,13 +462,24 @@ $app->get('/teacherCity/:teacherCity', 'authenticate', function($tea_city) {
             while ($teacher = $res->fetch_assoc()) {
                 $tmp = array();
 				
-                $tmp["tea_full_name"] = $teacher["tea_full_name"];
+				$tmp["tea_full_name"] = $teacher["tea_full_name"];
                 $tmp["tea_name_with_initials"] = $teacher["tea_name_with_initials"];
-				$tmp["tea_land_phone_number"] = $teacher["tea_land_phone_number"];
+				$tmp["tea_land_phone_numbteacherCityer"] = $teacher["tea_land_phone_number"];
                 $tmp["tea_mobile_phone_number"] = $teacher["tea_mobile_phone_number"];
 				$tmp["tea_address"] = $teacher["tea_address"];
-                $tmp["tea_city"] = $teacher["tea_city"];
+                $tmp["tea_birth_day"] = $teacher["tea_birth_day"];
+				$tmp["tea_city"] = $teacher["tea_city"];
+				$tmp["tec_nic"] = $teacher["tec_nic"];
 				$tmp["lib_mem_id"] = $teacher["lib_mem_id"];
+				$tmp["tea_distance_to_home"] = $teacher["tea_distance_to_home"];
+				$tmp["tea_occupation"] = $teacher["tea_occupation"];
+				$tmp["tea_occupation_type"] = $teacher["tea_occupation_type"];
+				$tmp["tea_office_address"] = $teacher["tea_office_address"];
+				$tmp["tea_office_phone"] = $teacher["tea_office_phone"];
+				$tmp["tea_gender"] = $teacher["tea_gender"];
+				$tmp["tea_email"] = $teacher["tea_email"];
+				$tmp["tea_student_id"] = $teacher["tea_student_id"];
+				$tmp["tea_ob_id"] = $teacher["tea_ob_id"];
                 $tmp["status"] = $teacher["status"];
                 $tmp["recode_added_at"] = $teacher["recode_added_at"];
 				$tmp["recode_added_by"] = $teacher["recode_added_by"];
